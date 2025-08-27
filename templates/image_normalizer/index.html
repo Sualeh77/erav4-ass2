@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Image Normalizer Tool{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-chart-line me-3"></i>Image Normalizer Tool
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-upload me-2"></i>Upload Image for Mean Normalization
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('image_normalizer.upload_and_normalize') }}" method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label for="file" class="form-label">Choose Image File</label>
+                            <input type="file" class="form-control form-control-lg" id="file" name="file" accept="image/*" required>
+                            <div class="form-text">Supported formats: PNG, JPG, JPEG, GIF, BMP</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-lg w-100" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none; color: white;">
+                            <i class="fas fa-calculator me-2"></i>Calculate Mean & Normalize
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>About Mean Normalization
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <h6>What is Mean Normalization?</h6>
+                    <p>Mean normalization is a preprocessing technique that:</p>
+                    <ul>
+                        <li><strong>Calculates the mean</strong> of all pixel values in the image</li>
+                        <li><strong>Subtracts the mean</strong> from each pixel value</li>
+                        <li><strong>Centers the data</strong> around zero</li>
+                        <li><strong>Rescales</strong> the result for display (0-255 range)</li>
+                    </ul>
+
+                    <h6 class="mt-4">Why Use Mean Normalization?</h6>
+                    <ul>
+                        <li>Removes bias in the data</li>
+                        <li>Helps with machine learning model training</li>
+                        <li>Reduces the impact of lighting conditions</li>
+                        <li>Standardizes input for neural networks</li>
+                    </ul>
+
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Formula:</strong> normalized_pixel = (original_pixel - mean) rescaled to [0, 255]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

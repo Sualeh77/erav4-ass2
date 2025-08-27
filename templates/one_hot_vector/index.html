@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Word to One Hot Vector{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-vector-square me-3"></i>Word to One Hot Vector
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333 !important;">
+                    <h4 class="card-title mb-0" style="color: #333 !important;">
+                        <i class="fas fa-edit me-2"></i>Enter Words for One-Hot Encoding
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('one_hot_vector.process_words') }}" method="post">
+                        <div class="mb-4">
+                            <label for="words" class="form-label">Words (10 or more recommended)</label>
+                            <textarea class="form-control" id="words" name="words" rows="6" 
+                                    placeholder="Enter words separated by commas, spaces, or new lines:&#10;apple, banana, cherry, dog, elephant, fire, guitar, house, ice, jazz, kite, lemon"
+                                    required></textarea>
+                            <div class="form-text">Enter words separated by commas, spaces, or new lines. Duplicates will be removed automatically.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="selected_word" class="form-label">Select Word for Detailed View (Optional)</label>
+                            <input type="text" class="form-control" id="selected_word" name="selected_word" 
+                                   placeholder="Enter a word from the list above to highlight its one-hot vector">
+                            <div class="form-text">Leave empty to see all words, or enter a specific word to highlight.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-lg w-100" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border: none; color: #333;">
+                            <i class="fas fa-magic me-2"></i>Generate One-Hot Vectors
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Information Section -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>About One-Hot Encoding
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>What is One-Hot Encoding?</h6>
+                            <p>One-hot encoding is a way to represent categorical data (like words) as binary vectors:</p>
+                            <ul>
+                                <li>Each word gets a unique position in the vector</li>
+                                <li>The vector is filled with zeros</li>
+                                <li>Only one position is set to 1 (hence "one-hot")</li>
+                                <li>Vector length = vocabulary size</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Example:</h6>
+                            <p>For vocabulary: ["cat", "dog", "fish"]</p>
+                            <ul>
+                                <li><strong>cat</strong> → [1, 0, 0]</li>
+                                <li><strong>dog</strong> → [0, 1, 0]</li>
+                                <li><strong>fish</strong> → [0, 0, 1]</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-primary mt-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Use Cases:</strong> Natural Language Processing, Machine Learning feature encoding, Neural Network inputs
+                    </div>
+
+                    <!-- Sample Words -->
+                    <div class="mt-4">
+                        <h6>Sample Word Lists (Click to Use):</h6>
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <button class="btn btn-sm btn-outline-primary w-100" onclick="setSampleWords('animals')">
+                                    Animals
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <button class="btn btn-sm btn-outline-primary w-100" onclick="setSampleWords('colors')">
+                                    Colors
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <button class="btn btn-sm btn-outline-primary w-100" onclick="setSampleWords('fruits')">
+                                    Fruits
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const sampleWords = {
+    animals: "cat, dog, elephant, lion, tiger, bear, rabbit, mouse, horse, cow, sheep, goat",
+    colors: "red, blue, green, yellow, orange, purple, pink, brown, black, white, gray, cyan",
+    fruits: "apple, banana, orange, grape, strawberry, mango, pineapple, kiwi, peach, plum, cherry, berry"
+};
+
+function setSampleWords(category) {
+    document.getElementById('words').value = sampleWords[category];
+    document.getElementById('words').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('words').focus();
+}
+</script>
+{% endblock %}

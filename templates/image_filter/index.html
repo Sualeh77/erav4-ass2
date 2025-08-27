@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Image Filter Tool{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-filter me-3"></i>Image Filter Tool
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-upload me-2"></i>Upload Image & Set Kernel
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('image_filter.upload_and_filter') }}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Choose Image File</label>
+                            <input type="file" class="form-control" id="file" name="file" accept="image/*" required>
+                            <div class="form-text">Supported formats: PNG, JPG, JPEG, GIF, BMP</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">3x3 Convolution Kernel</label>
+                            <div class="kernel-grid">
+                                <div class="row g-2">
+                                    {% for i in range(3) %}
+                                    <div class="col-12">
+                                        <div class="row g-2">
+                                            {% for j in range(3) %}
+                                            <div class="col-4">
+                                                <input type="number" 
+                                                       class="form-control text-center kernel-input" 
+                                                       name="kernel_{{ i*3 + j }}" 
+                                                       value="0" 
+                                                       step="0.1">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-magic me-2"></i>Apply Filter
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Common Kernels
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6>Edge Detection</h6>
+                        <button class="btn btn-sm btn-outline-primary" onclick="setKernel([-1, -1, -1, -1, 8, -1, -1, -1, -1])">
+                            Edge Detection
+                        </button>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Blur</h6>
+                        <button class="btn btn-sm btn-outline-primary" onclick="setKernel([0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111])">
+                            Box Blur
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Sharpen</h6>
+                        <button class="btn btn-sm btn-outline-primary" onclick="setKernel([0, -1, 0, -1, 5, -1, 0, -1, 0])">
+                            Sharpen
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Identity (No Change)</h6>
+                        <button class="btn btn-sm btn-outline-primary" onclick="setKernel([0, 0, 0, 0, 1, 0, 0, 0, 0])">
+                            Identity
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Emboss</h6>
+                        <button class="btn btn-sm btn-outline-primary" onclick="setKernel([-2, -1, 0, -1, 1, 1, 0, 1, 2])">
+                            Emboss
+                        </button>
+                    </div>
+
+                    <button class="btn btn-sm btn-outline-danger w-100" onclick="clearKernel()">
+                        <i class="fas fa-eraser me-1"></i>Clear Kernel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.kernel-input {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+.kernel-grid {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #dee2e6;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function setKernel(values) {
+    const inputs = document.querySelectorAll('.kernel-input');
+    values.forEach((value, index) => {
+        if (inputs[index]) {
+            inputs[index].value = value;
+        }
+    });
+}
+
+function clearKernel() {
+    const inputs = document.querySelectorAll('.kernel-input');
+    inputs.forEach(input => {
+        input.value = '0';
+    });
+}
+</script>
+{% endblock %}

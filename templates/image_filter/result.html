@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Image Filter - Results{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('image_filter.index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to Filter
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-filter me-3"></i>Filter Results
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Applied Kernel
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="kernel-display">
+                        <div class="row g-1 text-center">
+                            {% for row in kernel %}
+                            <div class="col-12">
+                                <div class="row g-1">
+                                    {% for value in row %}
+                                    <div class="col-4">
+                                        <span class="badge bg-primary p-2 w-100">{{ "%.2f"|format(value) }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">File: {{ filename }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-image me-2"></i>Original Image
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ original_image }}" class="img-fluid rounded" alt="Original Image" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-magic me-2"></i>Filtered Image
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ filtered_image }}" class="img-fluid rounded" alt="Filtered Image" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('image_filter.index') }}" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-plus me-2"></i>Process Another Image
+            </a>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-home me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.kernel-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #dee2e6;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.badge {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}

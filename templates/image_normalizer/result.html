@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Image Normalizer - Results{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('image_normalizer.index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to Normalizer
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-chart-line me-3"></i>Normalization Results
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Original Image Statistics
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if is_color %}
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <h6 class="text-danger">Red Channel</h6>
+                                <p><strong>Mean:</strong> {{ "%.2f"|format(original_stats.mean[0]) }}</p>
+                                <p><strong>Std:</strong> {{ "%.2f"|format(original_stats.std[0]) }}</p>
+                                <p><strong>Min:</strong> {{ original_stats.min[0]|int }}</p>
+                                <p><strong>Max:</strong> {{ original_stats.max[0]|int }}</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <h6 class="text-success">Green Channel</h6>
+                                <p><strong>Mean:</strong> {{ "%.2f"|format(original_stats.mean[1]) }}</p>
+                                <p><strong>Std:</strong> {{ "%.2f"|format(original_stats.std[1]) }}</p>
+                                <p><strong>Min:</strong> {{ original_stats.min[1]|int }}</p>
+                                <p><strong>Max:</strong> {{ original_stats.max[1]|int }}</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <h6 class="text-primary">Blue Channel</h6>
+                                <p><strong>Mean:</strong> {{ "%.2f"|format(original_stats.mean[2]) }}</p>
+                                <p><strong>Std:</strong> {{ "%.2f"|format(original_stats.std[2]) }}</p>
+                                <p><strong>Min:</strong> {{ original_stats.min[2]|int }}</p>
+                                <p><strong>Max:</strong> {{ original_stats.max[2]|int }}</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <h6>Grayscale Image</h6>
+                            <p><strong>Mean:</strong> {{ "%.2f"|format(original_stats.mean) }}</p>
+                            <p><strong>Std:</strong> {{ "%.2f"|format(original_stats.std) }}</p>
+                            <p><strong>Min:</strong> {{ original_stats.min|int }}</p>
+                            <p><strong>Max:</strong> {{ original_stats.max|int }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Normalized Image Statistics
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if is_color %}
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <h6 class="text-danger">Red Channel</h6>
+                                <p><strong>Mean:</strong> {{ "%.2f"|format(normalized_stats.mean[0]) }}</p>
+                                <p><strong>Std:</strong> {{ "%.2f"|format(normalized_stats.std[0]) }}</p>
+                                <p><strong>Min:</strong> {{ normalized_stats.min[0]|int }}</p>
+                                <p><strong>Max:</strong> {{ normalized_stats.max[0]|int }}</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <h6 class="text-success">Green Channel</h6>
+                                <p><strong>Mean:</strong> {{ "%.2f"|format(normalized_stats.mean[1]) }}</p>
+                                <p><strong>Std:</strong> {{ "%.2f"|format(normalized_stats.std[1]) }}</p>
+                                <p><strong>Min:</strong> {{ normalized_stats.min[1]|int }}</p>
+                                <p><strong>Max:</strong> {{ normalized_stats.max[1]|int }}</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <h6 class="text-primary">Blue Channel</h6>
+                                <p><strong>Mean:</strong> {{ "%.2f"|format(normalized_stats.mean[2]) }}</p>
+                                <p><strong>Std:</strong> {{ "%.2f"|format(normalized_stats.std[2]) }}</p>
+                                <p><strong>Min:</strong> {{ normalized_stats.min[2]|int }}</p>
+                                <p><strong>Max:</strong> {{ normalized_stats.max[2]|int }}</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <h6>Grayscale Image</h6>
+                            <p><strong>Mean:</strong> {{ "%.2f"|format(normalized_stats.mean) }}</p>
+                            <p><strong>Std:</strong> {{ "%.2f"|format(normalized_stats.std) }}</p>
+                            <p><strong>Min:</strong> {{ normalized_stats.min|int }}</p>
+                            <p><strong>Max:</strong> {{ normalized_stats.max|int }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subtracted Means -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-minus me-2"></i>Subtracted Mean Values
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if is_color %}
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <span class="badge bg-danger p-3" style="font-size: 1rem;">
+                                    Red: {{ "%.2f"|format(subtracted_means[0]) }}
+                                </span>
+                            </div>
+                            <div class="col-4">
+                                <span class="badge bg-success p-3" style="font-size: 1rem;">
+                                    Green: {{ "%.2f"|format(subtracted_means[1]) }}
+                                </span>
+                            </div>
+                            <div class="col-4">
+                                <span class="badge bg-primary p-3" style="font-size: 1rem;">
+                                    Blue: {{ "%.2f"|format(subtracted_means[2]) }}
+                                </span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <span class="badge bg-secondary p-3" style="font-size: 1rem;">
+                                Grayscale Mean: {{ "%.2f"|format(subtracted_means) }}
+                            </span>
+                        </div>
+                    {% endif %}
+                    <small class="text-muted d-block mt-2">File: {{ filename }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Comparison -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-image me-2"></i>Original Image
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ original_image }}" class="img-fluid rounded" alt="Original Image" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Mean Normalized Image
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ normalized_image }}" class="img-fluid rounded" alt="Normalized Image" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('image_normalizer.index') }}" class="btn btn-lg me-3" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none; color: white;">
+                <i class="fas fa-plus me-2"></i>Process Another Image
+            </a>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-home me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
