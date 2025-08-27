@@ -43,11 +43,21 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.13+
-- UV package manager (recommended) or pip
+### Option 1: Docker (Recommended) 🐳
+**Prerequisites**: Docker and Docker Compose
 
-### Installation & Setup
+1. **Start with one command**:
+   ```bash
+   docker-compose up
+   ```
+
+2. **Access the dashboard**:
+   Open your browser and go to: `http://localhost:5002`
+
+**That's it!** No need to install Python, dependencies, or manage virtual environments.
+
+### Option 2: Local Development 💻
+**Prerequisites**: Python 3.13+ and UV package manager
 
 1. **Clone or navigate to the project directory**:
    ```bash
@@ -58,32 +68,30 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
    ```bash
    uv sync
    ```
-   *Or with pip:*
-   ```bash
-   pip install flask pillow numpy werkzeug
-   ```
 
 3. **Start the application**:
    ```bash
    ./start.sh
    ```
-   *Or manually:*
-   ```bash
-   source .venv/bin/activate
-   python run.py
-   ```
 
 4. **Access the dashboard**:
-   Open your browser and go to: `http://localhost:5000`
+   Open your browser and go to: `http://localhost:5002`
 
 ## 📁 Project Structure
 
 ```
 s2_assignment/
 ├── main.py                 # Main Flask application
-├── run.py                  # Application runner with nice output
-├── start.sh               # Quick start script
+├── run.py                  # Local development runner
+├── docker-run.py           # Docker production runner
+├── start.sh               # Local quick start script
+├── docker-start.sh        # Docker quick start script
+├── test-docker.sh         # Docker deployment test script
 ├── pyproject.toml         # Project dependencies
+├── Dockerfile             # Docker image configuration
+├── docker-compose.yml     # Docker Compose setup
+├── .dockerignore          # Docker build exclusions
+├── DOCKER.md              # Docker deployment guide
 ├── templates/             # HTML templates
 │   ├── base.html          # Base template with styling
 │   ├── index.html         # Main dashboard
@@ -198,8 +206,30 @@ s2_assignment/
 
 ## 🏃‍♂️ Quick Commands
 
+### Docker Commands (Recommended)
 ```bash
-# Start application
+# Start with Docker
+docker-compose up
+
+# Start in background
+docker-compose up -d
+
+# Stop containers
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Quick start script
+./docker-start.sh
+
+# Test deployment
+./test-docker.sh
+```
+
+### Local Development Commands
+```bash
+# Start application locally
 ./start.sh
 
 # Install dependencies

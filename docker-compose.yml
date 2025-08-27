@@ -1,0 +1,41 @@
+services:
+  tools-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tools-dashboard
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=main.py
+      - PYTHONPATH=/app
+    volumes:
+      # Mount for development (optional - comment out for production)
+      # - ./templates:/app/templates:ro
+      # - ./static:/app/static:ro
+      
+      # Create volume for temporary files
+      - temp_files:/tmp
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - tools-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tools-dashboard.rule=Host(`localhost`)"
+      - "traefik.http.routers.tools-dashboard.entrypoints=web"
+      - "traefik.http.services.tools-dashboard.loadbalancer.server.port=5002"
+
+volumes:
+  temp_files:
+    driver: local
+
+networks:
+  tools-network:
+    driver: bridge
