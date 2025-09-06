@@ -8,6 +8,7 @@ from image_filter_demo.image_filter import image_filter_bp
 from image_normalizer.image_normalizer import image_normalizer_bp
 from token_length_checker.token_checker import token_checker_bp
 from word_to_one_hot_vector.one_hot_vector import one_hot_vector_bp
+from cnn_visualizer.cnn_visualizer import cnn_visualizer_bp
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-this'
@@ -22,6 +23,7 @@ app.register_blueprint(image_filter_bp, url_prefix='/image-filter')
 app.register_blueprint(image_normalizer_bp, url_prefix='/image-normalizer')
 app.register_blueprint(token_checker_bp, url_prefix='/token-checker')
 app.register_blueprint(one_hot_vector_bp, url_prefix='/one-hot-vector')
+app.register_blueprint(cnn_visualizer_bp, url_prefix='/cnn-visualizer')
 
 @app.route('/')
 def index():

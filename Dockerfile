@@ -39,6 +39,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
 ENV FLASK_APP=main.py
 ENV FLASK_ENV=production
 ENV PYTHONPATH=/app
+ENV GEMINI_API_KEY=""
 
 # Run the application
 CMD [".venv/bin/python", "docker-run.py"]

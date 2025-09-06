@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}CNN Visualizer - AI Tool{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-brain me-3"></i>CNN Visualizer 
+                    <span class="badge bg-success ms-2">
+                        <i class="fas fa-robot me-1"></i>AI
+                    </span>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-upload me-2"></i>Upload Image for CNN Visualization
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('cnn_visualizer.upload_image') }}" method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label for="file" class="form-label">Choose Image File</label>
+                            <input type="file" class="form-control form-control-lg" id="file" name="file" accept="image/*" required>
+                            <div class="form-text">Supported formats: PNG, JPG, JPEG, GIF, BMP. Max size recommended: 2MB</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-lg w-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white;">
+                            <i class="fas fa-brain me-2"></i>Analyze with AI CNN Visualizer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Information Section -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>About CNN Visualization
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-robot me-2"></i>AI-Powered Analysis</h6>
+                            <p>This tool uses <strong>Google Gemini 2.0 Flash</strong> to simulate how your image would transform through different layers of a Convolutional Neural Network.</p>
+                            
+                            <h6 class="mt-4">The 4 CNN Blocks:</h6>
+                            <div class="cnn-blocks">
+                                <div class="block-item mb-3">
+                                    <span class="badge bg-primary me-2">Block 1</span>
+                                    <strong>Edges & Gradients</strong><br>
+                                    <small class="text-muted">Detects basic edges, lines, and gradients</small>
+                                </div>
+                                <div class="block-item mb-3">
+                                    <span class="badge bg-success me-2">Block 2</span>
+                                    <strong>Patterns & Textures</strong><br>
+                                    <small class="text-muted">Combines edges to form patterns and textures</small>
+                                </div>
+                                <div class="block-item mb-3">
+                                    <span class="badge bg-warning me-2">Block 3</span>
+                                    <strong>Object Parts</strong><br>
+                                    <small class="text-muted">Identifies parts of objects (eyes, wheels, etc.)</small>
+                                </div>
+                                <div class="block-item mb-3">
+                                    <span class="badge bg-danger me-2">Block 4</span>
+                                    <strong>Complete Objects</strong><br>
+                                    <small class="text-muted">Recognizes full objects and semantic meaning</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>How It Works:</h6>
+                            <ol>
+                                <li><strong>Upload</strong> your image</li>
+                                <li><strong>AI analyzes</strong> the image content</li>
+                                <li><strong>Click blocks</strong> to see transformations</li>
+                                <li><strong>Visualize</strong> how CNNs process your image</li>
+                            </ol>
+
+                            <div class="alert alert-info mt-4">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Educational Tool:</strong> This visualization helps understand how deep learning models "see" and process images through hierarchical feature extraction.
+                            </div>
+
+                            <div class="alert alert-success mt-3">
+                                <i class="fas fa-robot me-2"></i>
+                                <strong>Powered by AI:</strong> Uses advanced language models to generate detailed descriptions of CNN layer transformations.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sample Images Section -->
+                    <div class="mt-4">
+                        <h6>💡 Best Results With:</h6>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <i class="fas fa-user fa-2x mb-2 text-primary"></i>
+                                    <small>Faces & People</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <i class="fas fa-car fa-2x mb-2 text-success"></i>
+                                    <small>Vehicles & Objects</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <i class="fas fa-leaf fa-2x mb-2 text-warning"></i>
+                                    <small>Nature & Animals</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <i class="fas fa-home fa-2x mb-2 text-danger"></i>
+                                    <small>Buildings & Architecture</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.cnn-blocks .block-item {
+    padding: 10px;
+    border-left: 4px solid #dee2e6;
+    margin-left: 10px;
+}
+
+.cnn-blocks .block-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: #007bff;
+}
+</style>
+{% endblock %}

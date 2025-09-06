@@ -41,20 +41,36 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
   - Highlight selected words
   - Sample word categories (animals, colors, fruits)
 
+### 5. **CNN Visualizer** 🧠 (AI-Powered)
+- **Location**: `cnn_visualizer/`
+- **Features**:
+  - AI-powered CNN layer visualization using Gemini 2.0 Flash
+  - Interactive 4-block CNN analysis (Edges → Patterns → Parts → Objects)
+  - Real-time image analysis and transformation descriptions
+  - Educational tool for understanding deep learning
+  - Google Generative AI integration
+  - Visual AI badge to distinguish AI-powered tools
+
 ## 🚀 Quick Start
 
 ### Option 1: Docker (Recommended) 🐳
 **Prerequisites**: Docker and Docker Compose
 
-1. **Start with one command**:
+1. **Set up environment variables** (for AI features):
+   ```bash
+   # Create .env file with your Google API key
+   echo "GOOGLE_API_KEY=your_google_gemini_api_key_here" > .env
+   ```
+
+2. **Start with one command**:
    ```bash
    docker-compose up
    ```
 
-2. **Access the dashboard**:
+3. **Access the dashboard**:
    Open your browser and go to: `http://localhost:5002`
 
-**That's it!** No need to install Python, dependencies, or manage virtual environments.
+**That's it!** The AI-powered CNN Visualizer will work with your API key.
 
 ### Option 2: Local Development 💻
 **Prerequisites**: Python 3.13+ and UV package manager
@@ -64,17 +80,23 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
    cd s2_assignment
    ```
 
-2. **Install dependencies**:
+2. **Set up environment variables**:
+   ```bash
+   # Create .env file with your Google API key
+   echo "GOOGLE_API_KEY=your_google_gemini_api_key_here" > .env
+   ```
+
+3. **Install dependencies**:
    ```bash
    uv sync
    ```
 
-3. **Start the application**:
+4. **Start the application**:
    ```bash
    ./start.sh
    ```
 
-4. **Access the dashboard**:
+5. **Access the dashboard**:
    Open your browser and go to: `http://localhost:5002`
 
 ## 📁 Project Structure
@@ -102,7 +124,9 @@ s2_assignment/
 ├── image_filter_demo/     # Image filtering tool
 ├── image_normalizer/      # Image normalization tool
 ├── token_length_checker/  # Text tokenization tool
-└── word_to_one_hot_vector/ # One-hot encoding tool
+├── word_to_one_hot_vector/ # One-hot encoding tool
+├── cnn_visualizer/        # AI-powered CNN visualization tool
+└── .env                   # Environment variables (API keys)
 ```
 
 ## 🎨 Features
@@ -203,6 +227,8 @@ s2_assignment/
 - **Pillow 10.0+**: Image processing
 - **NumPy 1.24+**: Numerical computations
 - **Werkzeug 3.0+**: File handling utilities
+- **Google Generative AI 0.3.0+**: AI model integration
+- **Python-dotenv 1.0.0+**: Environment variable management
 
 ## 🏃‍♂️ Quick Commands
 
@@ -248,6 +274,7 @@ source .venv/bin/activate && python -c "import main; print('OK')"
 2. **Token Checker**: Use sample texts for quick testing
 3. **One-Hot Vector**: Try the animal/color/fruit presets
 4. **Image Normalizer**: Works best with natural photos
+5. **CNN Visualizer**: Upload clear images with recognizable objects for best AI analysis
 
 ---
 

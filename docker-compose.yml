@@ -10,6 +10,7 @@ services:
       - FLASK_ENV=production
       - FLASK_APP=main.py
       - PYTHONPATH=/app
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     volumes:
       # Mount for development (optional - comment out for production)
       # - ./templates:/app/templates:ro

@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}CNN Visualization Results - AI Tool{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('cnn_visualizer.index') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i> Back to CNN Visualizer
+                </a>
+                <h1 class="display-5 mb-0">
+                    <i class="fas fa-brain me-3"></i>CNN Visualization Results
+                    <span class="badge bg-success ms-2">
+                        <i class="fas fa-robot me-1"></i>AI
+                    </span>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Original Image and Analysis -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-image me-2"></i>Original Image
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ original_image }}" class="img-fluid rounded shadow" alt="Original Image" style="max-height: 400px;">
+                    <div class="mt-3">
+                        <small class="text-muted">File: {{ filename }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-robot me-2"></i>AI Image Analysis
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="analysis-content">
+                        <p>{{ image_description }}</p>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-brain me-1"></i>
+                            Analyzed by Gemini 2.0 Flash
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CNN Block Buttons -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-layer-group me-2"></i>CNN Blocks - Click to Visualize
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-3 col-md-6">
+                            <button class="btn btn-outline-primary btn-lg w-100 cnn-block-btn" 
+                                    data-block="1" 
+                                    data-description="{{ image_description }}">
+                                <i class="fas fa-border-all fa-2x mb-2"></i><br>
+                                <strong>Block 1</strong><br>
+                                <small>Edges & Gradients</small>
+                            </button>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-6">
+                            <button class="btn btn-outline-success btn-lg w-100 cnn-block-btn" 
+                                    data-block="2" 
+                                    data-description="{{ image_description }}">
+                                <i class="fas fa-th fa-2x mb-2"></i><br>
+                                <strong>Block 2</strong><br>
+                                <small>Patterns & Textures</small>
+                            </button>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-6">
+                            <button class="btn btn-outline-warning btn-lg w-100 cnn-block-btn" 
+                                    data-block="3" 
+                                    data-description="{{ image_description }}">
+                                <i class="fas fa-puzzle-piece fa-2x mb-2"></i><br>
+                                <strong>Block 3</strong><br>
+                                <small>Object Parts</small>
+                            </button>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-6">
+                            <button class="btn btn-outline-danger btn-lg w-100 cnn-block-btn" 
+                                    data-block="4" 
+                                    data-description="{{ image_description }}">
+                                <i class="fas fa-eye fa-2x mb-2"></i><br>
+                                <strong>Block 4</strong><br>
+                                <small>Complete Objects</small>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Click any block to see how your image transforms through that CNN layer
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualization Results -->
+    <div class="row" id="visualization-results" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-magic me-2"></i>CNN Block <span id="current-block">1</span> Visualization
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="loading-spinner" class="text-center py-4" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3">
+                            <i class="fas fa-brain me-2"></i>
+                            AI is analyzing your image transformation...
+                        </p>
+                    </div>
+                    
+                    <div id="visualization-content" class="visualization-text">
+                        <!-- AI-generated visualization will appear here -->
+                    </div>
+                    
+                    <div class="mt-3" id="ai-attribution" style="display: none;">
+                        <small class="text-muted">
+                            <i class="fas fa-robot me-1"></i>
+                            Generated by Gemini 2.0 Flash AI Model
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('cnn_visualizer.index') }}" class="btn btn-lg me-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white;">
+                <i class="fas fa-plus me-2"></i>Analyze Another Image
+            </a>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-home me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.cnn-block-btn {
+    height: 120px;
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+.cnn-block-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.cnn-block-btn:active {
+    transform: translateY(-2px);
+}
+
+.cnn-block-btn.loading {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.visualization-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #007bff;
+}
+
+.analysis-content {
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const blockButtons = document.querySelectorAll('.cnn-block-btn');
+    const resultsSection = document.getElementById('visualization-results');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const visualizationContent = document.getElementById('visualization-content');
+    const currentBlockSpan = document.getElementById('current-block');
+    const aiAttribution = document.getElementById('ai-attribution');
+
+    blockButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const blockNumber = parseInt(this.dataset.block);
+            const imageDescription = this.dataset.description;
+            
+            // Show results section and loading
+            resultsSection.style.display = 'block';
+            loadingSpinner.style.display = 'block';
+            visualizationContent.innerHTML = '';
+            aiAttribution.style.display = 'none';
+            currentBlockSpan.textContent = blockNumber;
+            
+            // Disable all buttons
+            blockButtons.forEach(btn => btn.classList.add('loading'));
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Make AJAX request
+            fetch('{{ url_for("cnn_visualizer.visualize_block") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    block_number: blockNumber,
+                    image_description: imageDescription
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingSpinner.style.display = 'none';
+                
+                if (data.success) {
+                    visualizationContent.innerHTML = data.visualization.replace(/\n/g, '<br>');
+                    aiAttribution.style.display = 'block';
+                } else {
+                    visualizationContent.innerHTML = '<div class="alert alert-danger">Error: ' + data.error + '</div>';
+                }
+            })
+            .catch(error => {
+                loadingSpinner.style.display = 'none';
+                visualizationContent.innerHTML = '<div class="alert alert-danger">Network error: ' + error.message + '</div>';
+            })
+            .finally(() => {
+                // Re-enable buttons
+                blockButtons.forEach(btn => btn.classList.remove('loading'));
+            });
+        });
+    });
+});
+</script>
+{% endblock %}
