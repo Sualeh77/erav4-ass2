@@ -22,14 +22,16 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
   - Visual comparison of original vs normalized images
   - Detailed channel-wise statistics
 
-### 3. **Token Length Checker** 📝
+### 3. **Smart Token Checker** 📝 (AI-Enhanced)
 - **Location**: `token_length_checker/`
 - **Features**:
-  - Multiple tokenization methods (whitespace, punctuation removal, etc.)
-  - Comprehensive text statistics
-  - Token frequency analysis
-  - Character and word count analysis
-  - Sample text templates
+  - **AI-Powered Tokenization**: Uses Gemini's actual tokenizer
+  - **Real vs Basic Comparison**: AI tokens vs space-separated tokens
+  - **Educational Explanations**: Learn how LLMs tokenize text
+  - **Subword Token Analysis**: BPE/SentencePiece tokenization
+  - Multiple traditional tokenization methods (fallback)
+  - Comprehensive text statistics and analysis
+  - Sample text templates for testing
 
 ### 4. **Word to One-Hot Vector** 🔢
 - **Location**: `word_to_one_hot_vector/`
@@ -44,11 +46,14 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
 ### 5. **CNN Visualizer** 🧠 (AI-Powered)
 - **Location**: `cnn_visualizer/`
 - **Features**:
-  - AI-powered CNN layer visualization using Gemini 2.0 Flash
+  - **Triple AI Integration**: Gemini Vision + Gemini 2.0 Flash + DALL-E 3
+  - **Image-Based Analysis**: Gemini Vision analyzes your uploaded image first
+  - **Realistic CNN Generation**: DALL-E 3 creates visualizations based on your actual image
+  - **Text Descriptions**: Detailed CNN layer explanations from Gemini 2.0 Flash
   - Interactive 4-block CNN analysis (Edges → Patterns → Parts → Objects)
-  - Real-time image analysis and transformation descriptions
-  - Educational tool for understanding deep learning
-  - Google Generative AI integration
+  - Toggle between text-only or text + image generation
+  - Real-time AI-powered visualization using your specific image content
+  - Educational tool for understanding how CNNs process YOUR images
   - Visual AI badge to distinguish AI-powered tools
 
 ## 🚀 Quick Start
@@ -58,8 +63,11 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
 
 1. **Set up environment variables** (for AI features):
    ```bash
-   # Create .env file with your Google API key
-   echo "GOOGLE_API_KEY=your_google_gemini_api_key_here" > .env
+   # Create .env file with your API keys
+   cat > .env << EOF
+   GEMINI_API_KEY=your_google_gemini_api_key_here
+   OPENAI_API_KEY=your_openai_api_key_here
+   EOF
    ```
 
 2. **Start with one command**:
@@ -82,8 +90,11 @@ A comprehensive Flask-based web application featuring multiple AI and image proc
 
 2. **Set up environment variables**:
    ```bash
-   # Create .env file with your Google API key
-   echo "GOOGLE_API_KEY=your_google_gemini_api_key_here" > .env
+   # Create .env file with your API keys
+   cat > .env << EOF
+   GEMINI_API_KEY=your_google_gemini_api_key_here
+   OPENAI_API_KEY=your_openai_api_key_here
+   EOF
    ```
 
 3. **Install dependencies**:
@@ -227,7 +238,8 @@ s2_assignment/
 - **Pillow 10.0+**: Image processing
 - **NumPy 1.24+**: Numerical computations
 - **Werkzeug 3.0+**: File handling utilities
-- **Google Generative AI 0.3.0+**: AI model integration
+- **Google Generative AI 0.3.0+**: AI text generation (Gemini)
+- **OpenAI 1.0.0+**: AI image generation (DALL-E 3)
 - **Python-dotenv 1.0.0+**: Environment variable management
 
 ## 🏃‍♂️ Quick Commands

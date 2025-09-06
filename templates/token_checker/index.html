@@ -11,7 +11,10 @@
                     <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </a>
                 <h1 class="display-5 mb-0">
-                    <i class="fas fa-calculator me-3"></i>Token Length Checker
+                    <i class="fas fa-calculator me-3"></i>Smart Token Checker
+                    <span class="badge bg-success ms-2">
+                        <i class="fas fa-robot me-1"></i>AI Enhanced
+                    </span>
                 </h1>
             </div>
         </div>
@@ -22,7 +25,10 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header text-white" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                     <h4 class="card-title mb-0">
-                        <i class="fas fa-edit me-2"></i>Enter Text for Token Analysis
+                        <i class="fas fa-edit me-2"></i>Enter Text for Smart Token Analysis
+                        <span class="badge bg-warning text-dark ms-2">
+                            <i class="fas fa-robot me-1"></i>AI Powered
+                        </span>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -46,10 +52,84 @@
                             <div class="form-text">Choose how you want to tokenize the text.</div>
                         </div>
 
-                        <button type="submit" class="btn btn-lg w-100" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; color: white;">
-                            <i class="fas fa-chart-bar me-2"></i>Analyze Tokens
-                        </button>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-lg w-100" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; color: white;">
+                                    <i class="fas fa-chart-bar me-2"></i>Basic Analysis
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="ai-tokenize-btn" class="btn btn-lg w-100" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none; color: white;">
+                                    <i class="fas fa-robot me-2"></i>AI Tokenization
+                                </button>
+                            </div>
+                        </div>
                     </form>
+                </div>
+            </div>
+
+            <!-- AI Tokenization Results -->
+            <div id="ai-results" class="card shadow-sm mb-4" style="display: none;">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-robot me-2"></i>AI Tokenization Results
+                        <span class="badge bg-warning text-dark ms-2">Gemini 2.0</span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div id="ai-loading" class="text-center py-4" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3">
+                            <i class="fas fa-robot me-2"></i>
+                            AI is analyzing your text tokenization...
+                        </p>
+                    </div>
+                    
+                    <div id="ai-content" style="display: none;">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h2 id="ai-token-count" class="text-primary">0</h2>
+                                        <p class="mb-0">AI Token Count</p>
+                                        <small class="text-muted">Using Gemini's tokenizer</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h2 id="basic-token-count" class="text-secondary">0</h2>
+                                        <p class="mb-0">Basic Count (spaces)</p>
+                                        <small class="text-muted">Traditional method</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6><i class="fas fa-brain me-2"></i>AI Tokenization Explanation</h6>
+                            <div id="ai-explanation" class="alert alert-info">
+                                <!-- AI explanation will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6><i class="fas fa-list me-2"></i>AI Tokens</h6>
+                            <div id="ai-tokens-display" class="token-display">
+                                <!-- AI tokens will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-robot me-1"></i>
+                                Tokenized using Gemini 2.0 Flash model's actual tokenizer
+                            </small>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -57,40 +137,53 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-info text-white">
                     <h4 class="card-title mb-0">
-                        <i class="fas fa-lightbulb me-2"></i>Sample Texts
+                        <i class="fas fa-lightbulb me-2"></i>About Smart Tokenization
                     </h4>
                 </div>
                 <div class="card-body">
-                    <p>Try these sample texts to see how tokenization works:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-robot me-2"></i>AI-Powered Tokenization</h6>
+                            <p>This tool now uses <strong>Gemini 2.0 Flash</strong> to show you exactly how language models tokenize text:</p>
+                            <ul>
+                                <li><strong>Real Tokenizer</strong>: Uses Gemini's actual tokenizer</li>
+                                <li><strong>Subword Tokens</strong>: Shows BPE/SentencePiece tokens</li>
+                                <li><strong>Accurate Counts</strong>: Get real token counts for AI models</li>
+                                <li><strong>Educational</strong>: Learn how LLMs process text</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Why AI Tokenization Matters:</h6>
+                            <ul>
+                                <li>🤖 <strong>Model Limits</strong>: Token limits in AI models</li>
+                                <li>💰 <strong>API Costs</strong>: Pricing based on tokens</li>
+                                <li>🧠 <strong>Understanding</strong>: How AI "sees" text</li>
+                                <li>📊 <strong>Optimization</strong>: Better prompt engineering</li>
+                            </ul>
+                        </div>
+                    </div>
                     
-                    <div class="mb-3">
-                        <h6>Sample 1: Simple Sentence</h6>
-                        <div class="alert alert-light">
-                            <code onclick="copyToTextarea(this.innerText)" style="cursor: pointer;">
-                                The quick brown fox jumps over the lazy dog.
-                            </code>
+                    <div class="mt-4">
+                        <h6>📝 Sample Texts (Click to Try):</h6>
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <div class="alert alert-light" onclick="copyToTextarea('The quick brown fox jumps over the lazy dog.')" style="cursor: pointer;">
+                                    <small><strong>Simple:</strong> The quick brown fox jumps over the lazy dog.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="alert alert-light" onclick="copyToTextarea('Hello! I\\'m learning about tokenization in NLP. It\\'s fascinating how AI models process text differently than humans do.')" style="cursor: pointer;">
+                                    <small><strong>Conversational:</strong> Hello! I'm learning about tokenization...</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="alert alert-light" onclick="copyToTextarea('GPT-4, BERT, and T5 use different tokenization methods. Subword tokenization like BPE handles out-of-vocabulary words effectively.')" style="cursor: pointer;">
+                                    <small><strong>Technical:</strong> GPT-4, BERT, and T5 use different...</small>
+                                </div>
+                            </div>
                         </div>
+                        <small class="text-muted">Click on any sample to copy it to the text area above.</small>
                     </div>
-
-                    <div class="mb-3">
-                        <h6>Sample 2: Complex Text</h6>
-                        <div class="alert alert-light">
-                            <code onclick="copyToTextarea(this.innerText)" style="cursor: pointer;">
-                                Natural Language Processing (NLP) is a fascinating field! It combines computer science, AI, and linguistics. Tokens are fundamental units in NLP - they're like building blocks of text.
-                            </code>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <h6>Sample 3: Mixed Content</h6>
-                        <div class="alert alert-light">
-                            <code onclick="copyToTextarea(this.innerText)" style="cursor: pointer;">
-                                Hello World! Today is 2024-01-15. I have $100 in my account. Contact me at email@example.com or call (555) 123-4567.
-                            </code>
-                        </div>
-                    </div>
-
-                    <small class="text-muted">Click on any sample text to copy it to the text area above.</small>
                 </div>
             </div>
         </div>
@@ -98,8 +191,47 @@
 </div>
 
 <style>
-.alert code:hover {
+.alert:hover {
     background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.token-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #dee2e6;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ai-token {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 4px 8px;
+    margin: 2px;
+    border-radius: 6px;
+    border: 1px solid #90caf9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.basic-token {
+    display: inline-block;
+    background: #f3e5f5;
+    color: #7b1fa2;
+    padding: 4px 8px;
+    margin: 2px;
+    border-radius: 6px;
+    border: 1px solid #ce93d8;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 </style>
 {% endblock %}
@@ -113,5 +245,92 @@ function copyToTextarea(text) {
     // Focus on textarea
     document.getElementById('text').focus();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const aiTokenizeBtn = document.getElementById('ai-tokenize-btn');
+    const textArea = document.getElementById('text');
+    const aiResults = document.getElementById('ai-results');
+    const aiLoading = document.getElementById('ai-loading');
+    const aiContent = document.getElementById('ai-content');
+
+    aiTokenizeBtn.addEventListener('click', function() {
+        const text = textArea.value.trim();
+        
+        if (!text) {
+            alert('Please enter some text to analyze.');
+            return;
+        }
+
+        if (text.length > 2000) {
+            alert('Text is too long. Please limit to 2000 characters.');
+            return;
+        }
+
+        // Show results section and loading
+        aiResults.style.display = 'block';
+        aiLoading.style.display = 'block';
+        aiContent.style.display = 'none';
+        
+        // Disable button
+        aiTokenizeBtn.disabled = true;
+        aiTokenizeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        
+        // Scroll to results
+        aiResults.scrollIntoView({ behavior: 'smooth' });
+
+        // Calculate basic token count for comparison
+        const basicTokens = text.split(/\s+/).filter(token => token.length > 0);
+        document.getElementById('basic-token-count').textContent = basicTokens.length;
+
+        // Make AJAX request
+        fetch('{{ url_for("token_checker.ai_tokenize") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: text
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            aiLoading.style.display = 'none';
+            
+            if (data.success) {
+                // Display AI token count
+                document.getElementById('ai-token-count').textContent = data.ai_count;
+                
+                // Display explanation
+                document.getElementById('ai-explanation').innerHTML = data.explanation;
+                
+                // Display AI tokens
+                const tokensDisplay = document.getElementById('ai-tokens-display');
+                tokensDisplay.innerHTML = '';
+                
+                data.ai_tokens.forEach((token, index) => {
+                    const tokenSpan = document.createElement('span');
+                    tokenSpan.className = 'ai-token';
+                    tokenSpan.textContent = `${index + 1}: ${token}`;
+                    tokensDisplay.appendChild(tokenSpan);
+                });
+                
+                aiContent.style.display = 'block';
+            } else {
+                aiContent.innerHTML = '<div class="alert alert-danger">Error: ' + data.error + '</div>';
+                aiContent.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            aiLoading.style.display = 'none';
+            aiContent.innerHTML = '<div class="alert alert-danger">Network error: ' + error.message + '</div>';
+            aiContent.style.display = 'block';
+        })
+        .finally(() => {
+            // Re-enable button
+            aiTokenizeBtn.disabled = false;
+            aiTokenizeBtn.innerHTML = '<i class="fas fa-robot me-2"></i>AI Tokenization';
+        });
+    });
+});
 </script>
 {% endblock %}

@@ -52,20 +52,28 @@
             </div>
         </div>
 
-        <!-- Token Length Checker -->
+        <!-- Smart Token Checker -->
         <div class="col-lg-6 col-md-12 mb-4">
             <div class="card tool-card h-100" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                 <div class="card-body text-center">
-                    <div class="tool-icon">
+                    <div class="tool-icon position-relative">
                         <i class="fas fa-calculator"></i>
+                        <span class="ai-badge">
+                            <i class="fas fa-robot"></i>
+                        </span>
                     </div>
-                    <h3 class="card-title mb-3">Token Length Checker</h3>
+                    <h3 class="card-title mb-3">
+                        Smart Token Checker
+                        <span class="badge bg-success ms-2">
+                            <i class="fas fa-robot me-1"></i>AI Enhanced
+                        </span>
+                    </h3>
                     <p class="card-text mb-4">
-                        Count the number of tokens in your text by splitting on spaces.
-                        Useful for text analysis and processing.
+                        AI-powered tokenization using Gemini's actual tokenizer.
+                        See how language models really process your text.
                     </p>
                     <a href="{{ url_for('token_checker.index') }}" class="btn btn-custom btn-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="fas fa-play me-2"></i>Launch Tool
+                        <i class="fas fa-brain me-2"></i>Launch AI Tool
                     </a>
                 </div>
             </div>
